@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Anniversary 💖</title>
+<!-- Cute handwritten font -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        overflow-x: hidden;
+        overflow-y: hidden;
+        position: relative;
+    }
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 1s ease;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .active {
+        opacity: 1;
+        z-index: 1;
+    }
+
+    h1, h2, p, small {
+        color: #ff3366;
+        position: relative;
+    }
+
+    button {
+        background-color: #ff3366;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        margin-top: 20px;
+        font-size: 1em;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background-color: #ff6699;
+    }
+
+    input[type="number"] {
+        padding: 10px;
+        font-size: 1em;
+        border-radius: 8px;
+        border: 1px solid #ff3366;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Floating hearts background */
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: red;
+        transform: rotate(-45deg);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: floatUp 6s linear infinite;
+    }
+
+    .heart:before,
+    .heart:after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: red;
+        border-radius: 50%;
+    }
+
+    .heart:before { top: -10px; left: 0; }
+    .heart:after { top: 0; left: 10px; }
+
+    @keyframes floatUp {
+        0% { transform: translate3d(0,0,0) rotate(-45deg); opacity: 1; }
+        100% { transform: translate3d(0,-800px,0) rotate(-45deg); opacity: 0; }
+    }
+
+    /* Hearts around headings */
+    .heading-heart {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: pink;
+        transform: rotate(-45deg);
+        animation: floatSide 4s infinite alternate ease-in-out;
+    }
+
+    .heading-heart:before,
+    .heading-heart:after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: pink;
+        border-radius: 50%;
+    }
+
+    .heading-heart:before { top: -7.5px; left: 0; }
+    .heading-heart:after { top: 0; left: 7.5px; }
+
+    @keyframes floatSide {
+        0% { transform: translateX(0) rotate(-45deg); }
+        100% { transform: translateX(20px) rotate(-45deg); }
+    }
+
+    /* Cursor trail hearts */
+    .cursor-heart {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: pink;
+        transform: rotate(-45deg);
+        pointer-events: none;
+        border-radius: 50%;
+        animation: fadeOut 1s forwards;
+    }
+
+    .cursor-heart:before,
+    .cursor-heart:after {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: pink;
+        border-radius: 50%;
+    }
+
+    .cursor-heart:before { top: -6px; left: 0; }
+    .cursor-heart:after { top: 0; left: 6px; }
+
+    @keyframes fadeOut {
+        0% { opacity: 1; transform: translateY(0) rotate(-45deg); }
+        100% { opacity: 0; transform: translateY(-50px) rotate(-45deg); }
+    }
+
+    /* Enhanced fonts */
+    .cute-heading { font-family: 'Caveat', cursive; color:#ff3366; }
+    .cute-body { font-family: 'Caveat', cursive; color:#ff6699; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        h1 { font-size: 2em; }
+        h2 { font-size: 2em; }
+        button { padding: 10px 20px; font-size: 1em; }
+    }
+</style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="assets/audio/iris.mp3" type="audio/mp3">
+</audio>
+<button id="musicButton" 
+        style="position:fixed; top:10px; right:10px; z-index:20; padding:10px 15px; 
+               border:none; border-radius:10px; background:#ff3366; color:white; cursor:pointer;">
+  Play Music
+</button>
+
+<div id="hearts-container"></div>
+
+<!-- Intro Page -->
+<div class="section active" id="intro">
+    <h1>You should clear your schedule on October 11, 2025! 💖</h1>
+    <button onclick="nextSection('quiz')">Next</button>
+</div>
+
+<!-- Quiz Page (Math Question) -->
+<div class="section" id="quiz">
+    <p class="cute-body" style="font-size:1.5em;">Okay, before everything, let’s play one quiz!</p>
+    <h2>How long have we been together by this coming October?</h2>
+    <small>Hint: lim x→1 (3 – x)</small>
+    <input type="number" id="quizAnswer" placeholder="Enter number">
+    <p id="quizMessage" style="color:#ff3366;"></p>
+    <button onclick="checkQuiz()">Submit</button>
+</div>
+
+<!-- Quiz Page 2 (Date Question) -->
+<div class="section" id="dateQuiz">
+    <p class="cute-body" style="font-size:1.5em;">One more question… Can I take you out on a date? 😆</p>
+    <button onclick="nextSection('loveNote')">Yes</button>
+    <button onclick="nextSection('loveNote')">Yes</button>
+</div>
+
+<!-- Enhanced Love Note Page -->
+<div class="section" id="loveNote">
+    <h2 class="cute-heading" style="font-size:3em; margin-bottom:20px;">
+        I made this so you can feel that I’m preparing everything for you ❤️
+    </h2>
+    <p class="cute-body" style="font-size:1.8em; line-height:1.5;">
+        9x - 7i > 3(3x - 7u)<br>
+        ⇒ 9x - 7i > 9x - 21u<br>
+        ⇒ -7i > -21u<br>
+        ⇒ i < 3u ❤️
+    </p>
+    <button class="cute-body" style="font-size:1.2em;" onclick="nextSection('itinerary')">
+        See Our Itinerary
+    </button>
+</div>
+
+<!-- Enhanced Itinerary Page -->
+<div class="section" id="itinerary">
+    <h1 class="cute-heading" style="font-size:3em; margin-bottom:20px;">DATE ITINERARY 💖</h1>
+    <p class="cute-body" style="font-size:1.8em; line-height:2;">
+        12:00 PM - I'll pick you up at your house<br>
+        12:30 PM - Leave your place (so you have 30 minutes to finish your make up 🤣)<br>
+        ~1:25-1:30 PM - Expected arrival at Recto Station<br>
+        Grab to BGC ~1:50-2:10 PM<br>
+        2:30 - 3:20 PM - Grab a coffee<br>
+        3:30 - 5:00 PM - Explore Bonifacio High Street<br>
+        5:00 PM - Let's head to our dinner date place (SECRET TBA)
+    </p>
+</div>
+
+<script>
+    // Section navigation
+    function nextSection(id) {
+        const current = document.querySelector('.active');
+        current.classList.remove('active');
+        setTimeout(() => {
+            document.getElementById(id).classList.add('active');
+        }, 300);
+    }
+
+    // Quiz check
+    function checkQuiz() {
+        const answer = document.getElementById('quizAnswer').value;
+        if(answer == 2) {
+            nextSection('dateQuiz');
+        } else {
+            document.getElementById('quizMessage').innerText = "Hmm, try again 😉";
+        }
+    }
+
+    // Floating hearts container
+    const heartsContainer = document.getElementById('hearts-container');
+
+    function createHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.width = (10 + Math.random() * 20) + 'px';
+        heart.style.height = heart.style.width;
+        heart.style.animationDuration = (3 + Math.random() * 5) + 's';
+        heart.style.opacity = Math.random();
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }
+
+    // Random floating hearts automatically
+    setInterval(() => {
+        const x = Math.random() * window.innerWidth;
+        const y = window.innerHeight + 50;
+        createHeart(x, y);
+    }, 300);
+
+    // Hearts on click
+    document.body.addEventListener('click', e => {
+        createHeart(e.clientX, e.clientY);
+        createCursorHeart(e.clientX, e.clientY);
+    });
+
+    // Cursor trail hearts
+    function createCursorHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.className = 'cursor-heart';
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.width = (8 + Math.random() * 10) + 'px';
+        heart.style.height = heart.style.width;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+    }
+
+    document.addEventListener('mousemove', e => {
+        createCursorHeart(e.clientX, e.clientY);
+    });
+
+    // Hearts around headings
+    function createHeadingHearts() {
+        document.querySelectorAll('h1, h2').forEach(h => {
+            for(let i=0; i<3; i++){
+                const hh = document.createElement('div');
+                hh.className = 'heading-heart';
+                hh.style.left = (Math.random()*100 - 50) + 'px';
+                hh.style.top = (Math.random()*50 - 25) + 'px';
+                h.appendChild(hh);
+            }
+        });
+    }
+
+    createHeadingHearts();
+
+    // -------------------
+    // Background Music
+    // -------------------
+    const audio = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicButton');
+
+    // Start music automatically on first click anywhere
+    let musicStarted = false;
+    document.body.addEventListener('click', () => {
+        if(!musicStarted){
+            audio.play();
+            musicBtn.textContent = "Pause Music";
+            musicStarted = true;
+        }
+    }, { once: true });
+
+    // Play/Pause button
+    musicBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevent triggering first-click auto play again
+        if(audio.paused){
+            audio.play();
+            musicBtn.textContent = "Pause Music";
+        } else {
+            audio.pause();
+            musicBtn.textContent = "Play Music";
+        }
+    });
+
+</script>
+
+</body>
+</html>
